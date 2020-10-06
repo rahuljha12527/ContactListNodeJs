@@ -44,8 +44,10 @@ app.post("/create-contact", function (req, res) {
   return res.redirect("back");
 });
 
+//for deleting a contact
 app.get("/delete-contact", function (req, res) {
   console.log(req.query);
+  // get the query from the url
   let phone = req.query.phone;
 
   let contactIndex = contactList.findIndex(contact => contact.phone == phone);
