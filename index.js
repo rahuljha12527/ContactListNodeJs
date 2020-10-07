@@ -28,7 +28,7 @@ var contactList = [
 ];
 app.get("/", function (req, res) {
   
-  Contact.find({name:"gargi"},function(err,contacts){
+  Contact.find({},function(err,contacts){
     if(err){
       console.log('Error in fetching contacts from db');
       return;
@@ -71,16 +71,21 @@ app.post("/create-contact", function (req, res) {
 
 //for deleting a contact
 app.get("/delete-contact", function (req, res) {
+  //get the id from query in the parameters
   console.log(req.query);
   // get the query from the url
-  let phone = req.query.phone;
+  let id = req.query.id;
+  
+  //find the contact in the database using id  and delete it
+  Contact.findOneAndDelete(id,function(err){
+    if(err){
+      console.log('error in delteing an object form db');
+      return;
+    }
+    return res.redirect("back");  
+ });
 
-  let contactIndex = contactList.findIndex((contact) => contact.phone == phone);
-  if (contactIndex != -1) {
-    contactList.splice(contactIndex, 1);
-  }
-
-  return res.redirect("back");
+ 
 });
 
 app.listen(port, function (err) {
